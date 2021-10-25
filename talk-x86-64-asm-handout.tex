@@ -1,0 +1,54 @@
+%!TEX TS-program = XeLaTeX
+\documentclass[12pt]{article}
+\usepackage[hmargin=2.5cm, vmargin=3cm,a5paper,landscape]{geometry}
+
+\usepackage[english]{babel}
+\usepackage{fontspec}
+%\setmainfont[Mapping=tex-text]{Source Serif Pro}
+\setmainfont[Mapping=tex-text]{Source Sans Pro}
+\setmonofont[Mapping=]{Source Code Pro}
+
+\pagestyle{empty}
+\usepackage{tabularx}
+\usepackage{enumitem}
+
+\begin{document}
+\begin{center}
+Introduction to x86\_64 (dis)assembly\\
+\texttt{https://github.com/tobywf/talk-x86-64-asm}
+\end{center}
+\begin{tabularx}{0.45\textwidth}{l|p{1.2cm}|X|}
+64-bit & Caller owned & Role \\
+\hline
+RAX & & return value \\
+RBX & Yes &  \\
+RCX & & 4\textsuperscript{th} arg \\
+RDX & & 3\textsuperscript{rd} arg/ret val \\
+\hline
+RSI & & 2\textsuperscript{nd} arg \\
+RDI & & 1\textsuperscript{st} arg \\
+RSP & & stack pointer \\
+RBP & Yes & frame pointer \\
+\hline
+R8 & & 5\textsuperscript{th} arg \\
+R9 & & 6\textsuperscript{th} arg \\
+R10 & &  \\
+R11 & &  \\
+\hline
+R12--R15 & Yes & \\
+\hline
+\end{tabularx}
+\hspace{5pt}
+\begin{minipage}{0.5\textwidth}
+Callee must restore caller owned registers
+\\[15pt]
+Tools: {\ttfamily
+\begin{itemize}[noitemsep, topsep=0pt]
+\item clang -O1 -S -masm=intel foo.c -o foo.s
+\item objdump -M intel -S foo > foo.s
+\item gdb
+\end{itemize}}
+\vspace{15pt}
+macOS: add \texttt{-target x86\char`_64-pc-linux-elf}
+\end{minipage}
+\end{document}
